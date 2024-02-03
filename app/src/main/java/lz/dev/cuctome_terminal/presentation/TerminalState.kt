@@ -13,7 +13,8 @@ import kotlin.math.roundToInt
 data class TerminalState(
     val barList: List<Bar>,
     val visibleBarsCount: Int = 100,
-    val terminalWidth: Float = 0f,
+    val terminalWidth: Float = 1f,
+    val terminalHeight: Float = 1f,
     val scrolledBy: Float = 0f
 ): Parcelable {
     //ширина одного bar
@@ -22,12 +23,25 @@ data class TerminalState(
 
 
     //стэйт для определения bars, которые сейчас на экране
-    val visibleBars: List<Bar>
+   private val visibleBars: List<Bar>
         get() {
             val startIndex = (scrolledBy / barWidth).roundToInt().coerceAtLeast(0)
             val endIndex = (startIndex + visibleBarsCount).coerceAtMost(barList.size)
             return barList.subList(startIndex, endIndex)
         }
+
+    //получаем максимальную цену из списка
+    val max: Float
+        get() = visibleBars.maxOf {it.high}
+
+    //получаем минимальную  цену из списка
+    val min: Float
+        get()= visibleBars.minOf {it.low}
+
+    //количесвто пикселей на 1 пункт(нужно чтобы график занимал весь экран -от мин до макс значения)
+    val pxPerPoint: Float
+        get() = terminalHeight / (max - min)
+
 }
 
 @Composable
