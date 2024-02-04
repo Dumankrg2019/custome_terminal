@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cuctome_terminal</string>
+    <string name="timeframe_5minutes">M5</string>
+    <string name="timeframe_15minutes">M15</string>
+    <string name="timeframe_30minutes">M30</string>
+    <string name="timeframe_1hour">H1</string>
 </resources>
